@@ -1353,8 +1353,10 @@ const Composer: FC<OwnProps & StateProps> = ({
   });
 
   const removeSymbol = useLastCallback((inInputId = editableInputId) => {
-    const selection = window.getSelection()!;
+    const html = getHtml();
+    if (!html) return;
 
+    const selection = window.getSelection()!;
     if (selection.rangeCount) {
       const selectionRange = selection.getRangeAt(0);
       if (isSelectionInsideInput(selectionRange, inInputId)) {
@@ -1363,7 +1365,7 @@ const Composer: FC<OwnProps & StateProps> = ({
       }
     }
 
-    setHtml(deleteLastCharacterOutsideSelection(getHtml()));
+    setHtml(deleteLastCharacterOutsideSelection(html));
   });
 
   const removeSymbolAttachmentModal = useLastCallback(() => {
